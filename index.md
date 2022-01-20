@@ -1,3 +1,10 @@
+# TP3
+
+### BY : Sakassa Rachid ,Lakhmiri Mohammed elias, Benzemroun Badr
+
+## Simulations d’attaques(DNS,ARP,PROXY)
+
+
 # Objectif
 
 Les entrées ARP peut facilement être manipulées en utilisant des paquets de 
@@ -5,13 +12,19 @@ données falsifiées. On parle alors d’ARP spoofing (de l’anglais spoof, qui
 échanger), un type d’attaque de l’homme du milieu, qui permet aux pirates 
 d’échanger deux systèmes de communication en passant inaperçuS
 
-1. Prise en main de `bettercap` sur kali linux pour des simulation des 
+## Prise en main de `bettercap` sur kali linux pour des simulation des 
 attaques. 
+
 
 Pour l’installation, je vous invite à suivre leur github, qui est très bien documentée : 
 https://github.com/bettercap/bettercap
 
+![WhatsApp Image 2022-01-20 at 09 56 19](https://user-images.githubusercontent.com/53974876/150309674-4b2112cf-139e-4498-9627-b9077d1e8e66.jpeg)
+
+
 1- Tout d’abord, pour lancer bettercap, il suffit de lancer la commande suivante :
+
+![WhatsApp Image 2022-01-20 at 09 56 03](https://user-images.githubusercontent.com/53974876/150309872-2383fcad-d62a-46f8-a9d6-67d1c344e3be.jpeg)
 
 
 ```bash
@@ -35,7 +48,7 @@ dns.spoof on
 ![Capture d’écran 2022-01-20 095031](https://user-images.githubusercontent.com/53974876/150305317-9a5ded56-7dbd-4b82-b977-2a09c52d7b02.png)
 
 
-2. Attaque ARP 
+## 2. Attaque ARP 
 
 Cette attaque consiste à empoisonner le cache ARP de la machine cible afin de permettre de 
 router les paquets vers la machine pirate. 
@@ -69,7 +82,7 @@ set arp.spoof.targets 192.168.5.99
 modification de arp.spoof.target, l’attaque ARP aurait été propagée sur le réseau 
 ` 192.168.5.0/24. `
 
-**Verifier la table ARP de la victime (avant l’attaque) : **
+**Verifier la table ARP de la victime (avant l’attaque) :**
 
 ![Capture d’écran 2022-01-20 095639](https://user-images.githubusercontent.com/53974876/150306015-36aa308d-74fb-4814-b7f8-4adf79571fdb.png)
 
