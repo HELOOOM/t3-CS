@@ -162,9 +162,40 @@ net.sniff on
 
 Puis on configure le proxy :
 
+```bash
+set http.proxy.sslstrip true
+http.proxy on
+```
+![image](https://user-images.githubusercontent.com/53974876/150308224-6a9f001f-3f23-4752-96b2-51f1a7f0791e.png)
 
 
+L’utilisation du paramètre `« sslstrip »` nous permet d’activer le proxy https, et de proposer au 
+client un certificat généré par Bettercap. 
+Là encore nous gardons en place l’attaque ARP afin de cibler la victime. 
+Et lorsque la victime consulte des pages web, nous avons des messages sur bettercap :
 
+
+Attention aux sites en HTTPS, certains ont une protection HSTS qui permet de bloquer (ou du 
+moins complexifier l’attaque) :
+
+![image](https://user-images.githubusercontent.com/53974876/150308364-54785db0-3465-426b-bbf4-26d6f65cb06a.png)
+
+
+`voir dans Bettercap que la victime à bien été sur google comme ce suit:`
+
+![image](https://user-images.githubusercontent.com/53974876/150308508-87f368e0-89dc-4633-b7af-0355f1d0c82f.png)
+
+
+Lorsque la victime souhaite accéder à un site en HTTPS (sans HSTS) :
+
+![image](https://user-images.githubusercontent.com/53974876/150308591-f6f2d46c-9a6c-4f4e-a8a9-a2eee72fb0bc.png)
+
+
+Une erreur de certificat apparaît sur la page du navigateur car c’est un certificat non approuvé 
+par l’autorité de certification. Si la victime continue sans faire attention, nous pourrons alors 
+récupérer potentiellement des informations confidentielles. 
+En effet, vu que nous avons généré le certificat pour le proxy, nous détenons la clef privée. 
+Tous les flux peuvent donc être déchiffrés sans difficultés. 
 
 
 
